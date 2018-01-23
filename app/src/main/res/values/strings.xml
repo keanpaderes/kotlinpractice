@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">KotlinPractice</string>
+    <string name="textview_text">0</string>
+    <string name="toastbutton_text">Toast</string>
+    <string name="countbutton_text">Count</string>
+    <string name="randombutton_text">Random</string>
+    <string name="secondactivity_label">Hare is a number between 0 and %1d.</string>
+</resources>
