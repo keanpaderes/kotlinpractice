@@ -1,8 +1,13 @@
 <resources>
+    <!-- CONFIG STRINGS -->
+    <string name="server_client_id">521616243579-ek4425el5fdnvpnsmb3g9urttnbpfsoo.apps.googleusercontent.com</string>
+
+    <!-- APP STRINGS -->
     <string name="app_name">KotlinPractice</string>
     <string name="textview_text">0</string>
     <string name="toastbutton_text">Toast</string>
     <string name="countbutton_text">Count</string>
     <string name="randombutton_text">Random</string>
-    <string name="secondactivity_label">Hare is a number between 0 and %1d.</string>
+    <string name="secondactivity_label">Here is a number between 0 and %1d.</string>
+    <string name="title_activity_login">Sign in</string>
 </resources>
