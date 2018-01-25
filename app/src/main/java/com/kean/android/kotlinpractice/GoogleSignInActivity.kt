@@ -4,8 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.View
 import android.widget.Toast
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.result.Result
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -19,6 +20,7 @@ class GoogleSignInActivity : AppCompatActivity() {
     companion object {
         const val SIGN_IN_TAG = "sign_in_tag"
         const val SIGN_IN_REQUEST_CODE = 1
+        const val CHECK_URL_STRING = "http://192.168.1.146:1337/api/check"
     }
 
 
@@ -48,7 +50,7 @@ class GoogleSignInActivity : AppCompatActivity() {
                 val idToken = account.idToken
 
                 // Verify, then go to main activity intent
-                goToMain(idToken)
+                verifyAndGoToMain(idToken)
             } else {
                 // go to login activity
                 sign_in_button.setOnClickListener {
@@ -72,14 +74,30 @@ class GoogleSignInActivity : AppCompatActivity() {
                 val myToast = Toast.makeText(this, idToken, Toast.LENGTH_SHORT)
                 myToast.show()
                 // Verify, then go to main activity intent
-                goToMain(idToken)
+                verifyAndGoToMain(idToken)
             } catch (e: ApiException) {
                 Log.w("asd", "signInResult:failed code=" + e.getStatusCode());
             }
         }
     }
 
-    fun goToMain(token: String?) {
+    fun verifyAndGoToMain(token: String?) {
+        var data: String?
+        var error: String?
+        Fuel.post(CHECK_URL_STRING, listOf("token" to token)).responseString {
+            request, response, result ->
+                when (result) {
+                    is Result.Failure -> {
+                        error = result.get()
+                        Log.d("ASSSSDDDD", error)
+                    }
+                    is Result.Success -> {
+                        data = result.get()
+                        Log.d("ASSSSDDDD", data)
+                    }
+                }
+        }
+
         val mainIntent = Intent(this, MainActivity::class.java)
         mainIntent.putExtra(MainActivity.GOOGLE_ACCOUNT_TOKEN, token)
         startActivity(mainIntent)
